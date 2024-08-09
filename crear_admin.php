@@ -6,7 +6,7 @@ $nombre = 'Carlos';
 $apellido = 'Barrero';
 $email = 'barrerot@gmail.com';
 $telefono = '699490161';
-$contrasena = password_hash('adminpassword', PASSWORD_BCRYPT); // Encripta la contraseña
+$contrasena = password_hash('12345', PASSWORD_BCRYPT); // Encripta la contraseña
 $tipo = 'administrador';
 
 // Consulta SQL para insertar el usuario administrador
