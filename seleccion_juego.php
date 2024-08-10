@@ -27,6 +27,18 @@ $jugador_id = $_SESSION['jugador_id'];
             padding: 10px;
             background-color: #f8f8f8;
             border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .header a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .header a:hover {
+            color: #4CAF50;
         }
 
         h2 {
@@ -87,6 +99,7 @@ $jugador_id = $_SESSION['jugador_id'];
 </head>
 <body>
     <div class="header">
+        <a href="dashboard.php">Mi Dashboard</a>
         <a href="logout.php">Cerrar Sesión</a>
     </div>
 
