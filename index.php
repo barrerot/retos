@@ -1,72 +1,12 @@
-<?php
-session_start();
-include 'config.php'; // Asegúrate de que config.php tiene los datos correctos para conectar a la base de datos
-
-// Lógica de Inicio de Sesión
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $contrasena = $_POST['contrasena'];
-
-    // Verifica que el email existe
-    $sql = "SELECT * FROM jugadores WHERE email='$email'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        
-        // Verifica la contraseña
-        if (password_verify($contrasena, $row['contrasena'])) {
-            $_SESSION['jugador_id'] = $row['id'];
-            $_SESSION['tipo'] = $row['tipo'];
-
-            // Redirige según el tipo de usuario
-            if ($row['tipo'] == 'administrador') {
-                header("Location: crud_juegos.php");
-            } else {
-                header("Location: seleccion_juego.php");
-            }
-            exit();
-        } else {
-            $login_error = "Contraseña incorrecta.";
-        }
-    } else {
-        $login_error = "Email no registrado.";
-    }
-}
-
-// Lógica de Registro
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
-    $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
-    $email = $_POST['email'];
-    $telefono = $_POST['telefono'];
-    $contrasena = password_hash($_POST['contrasena'], PASSWORD_BCRYPT);
-
-    // Verificar si el email ya está registrado
-    $sql_check = "SELECT * FROM jugadores WHERE email='$email'";
-    $result_check = $conn->query($sql_check);
-
-    if ($result_check->num_rows == 0) {
-        // Insertar nuevo usuario
-        $sql = "INSERT INTO jugadores (nombre, apellido, email, telefono, contrasena, tipo) 
-                VALUES ('$nombre', '$apellido', '$email', '$telefono', '$contrasena', 'jugador')";
-        
-        if ($conn->query($sql) === TRUE) {
-            $register_success = "Registro exitoso. Ahora puedes iniciar sesión.";
-        } else {
-            $register_error = "Error al registrar el usuario: " . $conn->error;
-        }
-    } else {
-        $register_error = "Este email ya está registrado.";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Inicio - Aplicación de Juegos de Lógica</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
     <style>
         body {
             font-family: Arial, sans-serif;
